@@ -1,0 +1,7 @@
+.demo { margin-top: 1rem; }
+.highlight-box {
+    border: 2px dashed #ffb400;
+    padding: 1rem;
+    border-radius: 6px;
+    transition: all .2s;
+}

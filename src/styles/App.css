@@ -1,4 +1,3 @@
-/* Base styling */
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -132,7 +131,7 @@ button {
 }
 
 button:hover {
-    background-color: #0099cc;
+    background-color: #642bc6;
     transform: scale(1.05);
 }
 

@@ -1,55 +1,73 @@
 import { useEffect, useState } from "react";
 import { Book } from "../types/Book";
 
-const Favorites = () => {
+import {
+    getFavoriteBooks,
+    removeFavoriteBook,
+    toggleHighlightFlag,
+} from "../utils/favoritesStorage";
+
+import ConditionalWrapper from "./ConditionalWrapper";
+import HighlightBox from "./HighlightBox";
+
+import "./Favorites.css";
+
+export default function Favorites() {
     const [favorites, setFavorites] = useState<Book[]>([]);
 
+
     useEffect(() => {
-        const stored = localStorage.getItem("favorites");
-        if (stored) {
-            setFavorites(JSON.parse(stored));
-        }
+        setFavorites(getFavoriteBooks());
     }, []);
 
-    const removeFavorite = (bookKey: string) => {
-        const updated = favorites.filter((book) => book.key !== bookKey);
-        setFavorites(updated);
-        localStorage.setItem("favorites", JSON.stringify(updated));
-    };
+    const handleRemove = (key: string) =>
+        setFavorites(removeFavoriteBook(key));
 
-    if (favorites.length === 0) {
-        return <p style={{ textAlign: "center" }}>No favorite books added yet.</p>;
-    }
+    const handleToggleHighlight = (key: string) =>
+        setFavorites(toggleHighlightFlag(key));
+
+    const renderBook = (bk: Book) => (
+        <ConditionalWrapper
+            key={bk.key}
+            condition={!!bk.highlight}
+            wrapper={(children) => <HighlightBox>{children}</HighlightBox>}
+        >
+            <li className="fav-item">
+                <div className="fav-info">
+                    <strong>{bk.title}</strong>
+                    {bk.author_name?.length && (
+                        <span className="authors"> — {bk.author_name.join(", ")}</span>
+                    )}
+                </div>
+
+                <div className="fav-actions">
+                    <button
+                        className="toggle-btn"
+                        onClick={() => handleToggleHighlight(bk.key)}
+                    >
+                        {bk.highlight ? "Un‑highlight" : "Highlight"}
+                    </button>
+
+                    <button
+                        className="remove-btn"
+                        onClick={() => handleRemove(bk.key)}
+                    >
+                        × Remove
+                    </button>
+                </div>
+            </li>
+        </ConditionalWrapper>
+    );
 
     return (
-        <div className="favorites">
-            <h2 style={{ textAlign: "center" }}>❤️ Favorite Books</h2>
-            <ul className="book-list">
-                {favorites.map((book) => (
-                    <li key={book.key} className="book-card">
-                        <div className="cover">
-                            {book.cover_i ? (
-                                <img
-                                    src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}
-                                    alt="cover"
-                                />
-                            ) : (
-                                <div className="no-cover">No Cover</div>
-                            )}
-                        </div>
-                        <div className="info">
-                            <strong>{book.title}</strong>
-                            <div>{book.author_name?.join(", ")}</div>
-                            <div>{book.first_publish_year}</div>
-                            <button onClick={() => removeFavorite(book.key)}>
-                                ❌ Remove
-                            </button>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-};
+        <section className="favorites-section">
+            <h2>Favourite Books ({favorites.length})</h2>
 
-export default Favorites;
+            {favorites.length === 0 ? (
+                <p className="empty-msg">You haven’t saved any books yet.</p>
+            ) : (
+                <ul className="fav-list">{favorites.map(renderBook)}</ul>
+            )}
+        </section>
+    );
+}
