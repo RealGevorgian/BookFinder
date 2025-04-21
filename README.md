@@ -4,7 +4,7 @@ A sleek, fully‑typed **React + Vite + TypeScript** application for quickly
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 | Category | Feature |
 |----------|---------|
@@ -18,7 +18,7 @@ A sleek, fully‑typed **React + Vite + TypeScript** application for quickly
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 # 1 · Clone
@@ -75,7 +75,7 @@ src/
 
 ---
 
-## 🛠️  Tech Stack
+## Tech Stack
 
 - **React 18** · **TypeScript 5**
 - **Vite** – ultra‑fast dev & HMR
@@ -85,18 +85,10 @@ src/
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repo & create a branch `feat/<name>`
 2. `pnpm install` (or npm/yarn) and code away
 3. Run `npm run lint` & `npm run build` before opening a PR ✨
 
----
-
-## © License
-
-MIT – do whatever you’d like, just keep the credits. ♥
-
-> *“A reader lives a thousand lives before he dies…*
-> *The man who never reads lives only one.”* — George R. Martin
 
